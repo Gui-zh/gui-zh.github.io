@@ -78,26 +78,72 @@
             padding: 0 15px;
         }
         
-        .category {
-            padding: 14px 20px;
+        /* 分类导航样式 */
+        .main-category {
             margin-bottom: 8px;
             border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .main-category-header {
+            padding: 14px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .main-category-header:hover, .main-category-header.active {
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .main-category-header .category-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .main-category-header i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .main-category-header .arrow {
+            transition: transform 0.3s ease;
+        }
+        
+        .main-category.open .arrow {
+            transform: rotate(180deg);
+        }
+        
+        .sub-categories {
+            padding-left: 56px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .main-category.open .sub-categories {
+            max-height: 500px;
+        }
+        
+        .sub-category {
+            padding: 10px 20px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 12px;
             transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 2px 0;
         }
         
-        .category:hover, .category.active {
-            background: rgba(255, 255, 255, 0.15);
+        .sub-category:hover, .sub-category.active {
+            background: rgba(255, 255, 255, 0.1);
             transform: translateX(5px);
-        }
-        
-        .category i {
-            font-size: 1.2rem;
-            width: 24px;
-            text-align: center;
         }
         
         /* 主内容区域 */
@@ -181,6 +227,11 @@
             gap: 10px;
         }
         
+        .current-filter {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
         .policies-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -193,6 +244,7 @@
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             transition: transform 0.3s, box-shadow 0.3s;
+            cursor: default;
         }
         
         .policy-card:hover {
@@ -216,6 +268,7 @@
             color: inherit;
             text-decoration: none;
             transition: color 0.2s;
+            cursor: pointer;
         }
         
         .policy-title a:hover {
@@ -305,17 +358,15 @@
             }
             
             .categories {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
                 padding: 15px;
             }
             
-            .category {
-                margin-bottom: 0;
-                flex: 1;
-                min-width: 120px;
-                justify-content: center;
+            .main-category {
+                margin-bottom: 10px;
+            }
+            
+            .sub-categories {
+                padding-left: 40px;
             }
         }
         
@@ -367,37 +418,137 @@
             </div>
             
             <div class="categories">
-                <div class="category active" data-category="all">
-                    <i class="fas fa-list"></i>
-                    <span>全部政策</span>
+                <!-- 全部政策 -->
+                <div class="main-category">
+                    <div class="main-category-header active" data-main-category="all">
+                        <div class="category-info">
+                            <i class="fas fa-list"></i>
+                            <span>全部政策</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="category" data-category="economy">
-                    <i class="fas fa-chart-line"></i>
-                    <span>基础设施类</span>
+                
+                <!-- 中央预算 -->
+                <div class="main-category">
+                    <div class="main-category-header" data-main-category="budget1">
+                        <div class="category-info">
+                            <i class="fas fa-coins"></i>
+                            <span>中央预算内投资</span>
+                        </div>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="sub-categories">
+                        <div class="sub-category" data-category="budget1-infrastructure">
+                            <i class="fas fa-road"></i>
+                            <span>基础设施类</span>
+                        </div>
+                        <div class="sub-category" data-category="budget1-public-service">
+                            <i class="fas fa-users"></i>
+                            <span>公共服务</span>
+                        </div>
+                        <div class="sub-category" data-category="budget1-regional-dev">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>区域发展</span>
+                        </div>
+                        <div class="sub-category" data-category="budget1-disaster-prevention">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>防灾救灾</span>
+                        </div>
+                        <div class="sub-category" data-category="budget1-environment">
+                            <i class="fas fa-leaf"></i>
+                            <span>生态环境</span>
+                        </div>
+                        <div class="sub-category" data-category="budget1-rural-revitalization">
+                            <i class="fas fa-seedling"></i>
+                            <span>乡村振兴</span>
+                        </div>
+                        <div class="sub-category" data-category="budget1-other">
+                            <i class="fas fa-ellipsis-h"></i>
+                            <span>其他</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="category" data-category="tech">
-                    <i class="fas fa-microchip"></i>
-                    <span>公共服务</span>
+                
+                <!-- 预算二 -->
+                <div class="main-category">
+                    <div class="main-category-header" data-main-category="budget2">
+                        <div class="category-info">
+                            <i class="fas fa-coins"></i>
+                            <span>预算二</span>
+                        </div>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="sub-categories">
+                        <div class="sub-category" data-category="budget2-infrastructure">
+                            <i class="fas fa-road"></i>
+                            <span>基础设施类</span>
+                        </div>
+                        <div class="sub-category" data-category="budget2-public-service">
+                            <i class="fas fa-users"></i>
+                            <span>公共服务</span>
+                        </div>
+                        <div class="sub-category" data-category="budget2-regional-dev">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>区域发展</span>
+                        </div>
+                        <div class="sub-category" data-category="budget2-disaster-prevention">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>防灾救灾</span>
+                        </div>
+                        <div class="sub-category" data-category="budget2-environment">
+                            <i class="fas fa-leaf"></i>
+                            <span>生态环境</span>
+                        </div>
+                        <div class="sub-category" data-category="budget2-rural-revitalization">
+                            <i class="fas fa-seedling"></i>
+                            <span>乡村振兴</span>
+                        </div>
+                        <div class="sub-category" data-category="budget2-other">
+                            <i class="fas fa-ellipsis-h"></i>
+                            <span>其他</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="category" data-category="education">
-                    <i class="fas fa-graduation-cap"></i>
-                    <span>区域发展</span>
-                </div>
-                <div class="category" data-category="health">
-                    <i class="fas fa-heartbeat"></i>
-                    <span>防灾救灾</span>
-                </div>
-                <div class="category" data-category="environment">
-                    <i class="fas fa-leaf"></i>
-                    <span>生态环境</span>
-                </div>
-                <div class="category" data-category="agriculture">
-                    <i class="fas fa-tractor"></i>
-                    <span>乡村振兴</span>
-                </div>
-                <div class="category" data-category="social">
-                    <i class="fas fa-hands-helping"></i>
-                    <span>其他</span>
+                
+                <!-- 预算三 -->
+                <div class="main-category">
+                    <div class="main-category-header" data-main-category="budget3">
+                        <div class="category-info">
+                            <i class="fas fa-coins"></i>
+                            <span>预算三</span>
+                        </div>
+                        <i class="fas fa-chevron-down arrow"></i>
+                    </div>
+                    <div class="sub-categories">
+                        <div class="sub-category" data-category="budget3-infrastructure">
+                            <i class="fas fa-road"></i>
+                            <span>基础设施类</span>
+                        </div>
+                        <div class="sub-category" data-category="budget3-public-service">
+                            <i class="fas fa-users"></i>
+                            <span>公共服务</span>
+                        </div>
+                        <div class="sub-category" data-category="budget3-regional-dev">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>区域发展</span>
+                        </div>
+                        <div class="sub-category" data-category="budget3-disaster-prevention">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>防灾救灾</span>
+                        </div>
+                        <div class="sub-category" data-category="budget3-environment">
+                            <i class="fas fa-leaf"></i>
+                            <span>生态环境</span>
+                        </div>
+                        <div class="sub-category" data-category="budget3-rural-revitalization">
+                            <i class="fas fa-seedling"></i>
+                            <span>乡村振兴</span>
+                        </div>
+                        <div class="sub-category" data-category="budget3-other">
+                            <i class="fas fa-ellipsis-h"></i>
+                            <span>其他</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -409,30 +560,19 @@
                     <i class="fas fa-search"></i>
                     <input type="text" id="searchInput" placeholder="搜索政策文件或关键词...">
                 </div>
-                
-                <div class="stats">
-                    <div class="stat-item">
-                        <div class="number">6</div>
-                        <div class="label">政策总数</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="number">7</div>
-                        <div class="label">政策分类</div>
-                    </div>
-                </div>
             </div>
             
             <h2 class="section-title">
                 <i class="fas fa-file-alt"></i>
-                最新政策文件
+                <span class="current-filter">(全部政策)</span>
             </h2>
             
             <div class="policies-container">
                 <!-- 政策文件卡片 -->
-                <div class="policy-card" data-category="economy">
+                <div class="policy-card" data-category="budget1-infrastructure">
                     <div class="policy-header">
                         <h3 class="policy-title">
-                            <a href="https://www.gov.cn/zhengce/content/2021-10/26/content_5644984.htm" target="_blank">《铁路项目中央预算内投资专项管理办法》(发改基础规〔2023〕1761号)</a>
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202401/content_6927331.htm" target="_blank">《铁路项目中央预算内投资专项管理办法》(发改基础规〔2023〕1761号)</a>
                         </h3>
                         <div class="policy-date">
                             <i class="far fa-calendar-alt"></i> 2027/12/31
@@ -455,13 +595,273 @@
                     </div>
                 </div>
                 
-                <div class="policy-card" data-category="tech">
+				<div class="policy-card" data-category="budget1-infrastructure">
                     <div class="policy-header">
                         <h3 class="policy-title">
-                            <a href="https://www.gov.cn/zhengce/content/2021-10/26/content_5644984.htm" target="_blank">新一代人工智能发展规划实施方案</a>
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202412/content_6990748.htm" target="_blank">《交通运输领域专项资金管理办法》（财建〔2024〕367号）</a>
                         </h3>
                         <div class="policy-date">
-                            <i class="far fa-calendar-alt"></i> 2023-10-28
+                            <i class="far fa-calendar-alt"></i> --
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 财政部 交通运输部
+                        </div>
+                    </div>
+                </div>
+				
+                <div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202403/t20240326_1365287.html" target="_blank">《水运中央预算内投资专项管理办法》（发改基础规〔2024〕306号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2028/12/31
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+                <div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2022-07/11/content_5700362.htm" target="_blank">《关于支持国家综合货运枢纽补链强链的通知》（财建〔2022〕219号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> --
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 财政部 交通运输部
+                        </div>
+                    </div>
+                </div>
+				
+                <div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202106/t20210616_1283303.html?state=123" target="_blank">《城乡冷链和国家物流枢纽建设中央预算内投资专项管理办法》（发改经贸规〔2023〕1753号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2033年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href=# target="_blank">《政府还贷二级公路取消收费后补助资金管理暂行办法》（财建〔2021〕361号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2027/12/31
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xwdt/tzgg/202207/t20220708_1330295.html" target="_blank">《城市燃气管道等老化更新改造和保障性安居工程中央预算内投资专项管理暂行办法》（发改投资规〔2022〕910号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2027年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2021-06/02/content_5614936.htm" target="_blank">《排水设施建设中央预算内投资专项管理暂行办法》（发改投资规〔2021〕698号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2026年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2022-03/19/content_5679860.htm" target="_blank">气象基础设施中央预算内投资专项管理办法（发改农经规〔2022〕392号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2027年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202412/t20241223_1395123.html" target="_blank">《水利中央预算内投资专项管理办法》（发改农经规〔2024〕1761号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029/12/11
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-infrastructure">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2023-03/28/content_5748725.htm" target="_blank">《重大水利工程等农林水气项目前期工作中央预算内投资专项管理办法》（发改投资规〔2023〕183号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2028年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">数字经济</span>
+                            <span class="keyword">产业升级</span>
+                            <span class="keyword">数字化转型</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展和改革委员会
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-public-service">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202403/content_6941803.htm" target="_blank">《关于修订印发社会领域中央预算内投资相关专项管理办法的通知》（发改社会规〔2024〕284号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029年
                         </div>
                     </div>
                     <div class="policy-body">
@@ -480,14 +880,14 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="policy-card" data-category="education">
+				
+				<div class="policy-card" data-category="budget1-public-service">
                     <div class="policy-header">
                         <h3 class="policy-title">
-                            <a href="https://www.gov.cn/zhengce/content/2021-10/26/content_5644984.htm" target="_blank">关于深化新时代教育评价改革的指导意见</a>
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202409/content_6972042.htm" target="_blank">《教育强国基础设施建设工程（公共实训基地方向）中央预算内投资专项管理办法》（发改就业规〔2024〕1228号）</a>
                         </h3>
                         <div class="policy-date">
-                            <i class="far fa-calendar-alt"></i> 2023-09-12
+                            <i class="far fa-calendar-alt"></i> 2029/8/20
                         </div>
                     </div>
                     <div class="policy-body">
@@ -495,25 +895,25 @@
                             本意见XXXXXX.
                         </p>
                         <div class="policy-keywords">
-                            <span class="keyword">教育改革</span>
-                            <span class="keyword">评价体系</span>
-                            <span class="keyword">人才培养</span>
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
                         </div>
                     </div>
                     <div class="policy-footer">
                         <div class="policy-department">
-                            <i class="fas fa-building"></i> 教育部
+                            <i class="fas fa-building"></i> 科学技术部
                         </div>
                     </div>
                 </div>
-                
-                <div class="policy-card" data-category="health">
+				
+				<div class="policy-card" data-category="budget1-public-service">
                     <div class="policy-header">
                         <h3 class="policy-title">
-                            <a href="https://www.gov.cn/zhengce/content/2021-10/26/content_5644984.htm" target="_blank">"十四五"国民健康规划实施方案</a>
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2023-01/20/content_5738185.htm" target="_blank">《中央支持地方公共文化服务体系建设补助资金管理办法》（财教〔2022〕270号）</a>
                         </h3>
                         <div class="policy-date">
-                            <i class="far fa-calendar-alt"></i> 2023-08-05
+                            <i class="far fa-calendar-alt"></i> --
                         </div>
                     </div>
                     <div class="policy-body">
@@ -521,67 +921,434 @@
                             本意见XXXXXX.
                         </p>
                         <div class="policy-keywords">
-                            <span class="keyword">医疗卫生</span>
-                            <span class="keyword">健康中国</span>
-                            <span class="keyword">公共卫生</span>
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
                         </div>
                     </div>
                     <div class="policy-footer">
                         <div class="policy-department">
-                            <i class="fas fa-building"></i> 国家卫生健康委员会
+                            <i class="fas fa-building"></i> 科学技术部
                         </div>
                     </div>
                 </div>
-                
-                <div class="policy-card" data-category="environment">
+				
+                <div class="policy-card" data-category="budget1-regional-dev">
                     <div class="policy-header">
                         <h3 class="policy-title">
-                            <a href="https://www.gov.cn/zhengce/content/2021-10/26/content_5644984.htm" target="_blank">碳达峰碳中和行动方案</a>
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202104/t20210419_1272543.html" target="_blank">《粤港澳大湾区建设、长江三角洲区域一体化发展中央预算内投资专项管理办法》（发改地区规〔2021〕466号）</a>
                         </h3>
                         <div class="policy-date">
-                            <i class="far fa-calendar-alt"></i> 2023-07-22
+                            <i class="far fa-calendar-alt"></i> 2026/4/2
                         </div>
                     </div>
                     <div class="policy-body">
                         <p class="policy-description">
-                            本方案XXXXXX
+                            本意见XXXXXX.
                         </p>
                         <div class="policy-keywords">
-                            <span class="keyword">碳中和</span>
-                            <span class="keyword">绿色发展</span>
-                            <span class="keyword">能源转型</span>
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
                         </div>
                     </div>
                     <div class="policy-footer">
                         <div class="policy-department">
-                            <i class="fas fa-building"></i> 生态环境部
+                            <i class="fas fa-building"></i> 国家发展改革委
                         </div>
                     </div>
                 </div>
-                
-                <div class="policy-card" data-category="agriculture">
+				
+                <div class="policy-card" data-category="budget1-environment">
                     <div class="policy-header">
                         <h3 class="policy-title">
-                            <a href="https://www.gov.cn/zhengce/content/2021-10/26/content_5644984.htm" target="_blank">关于全面推进乡村振兴加快农业农村现代化的意见</a>
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202404/t20240408_1365534.html" target="_blank">《节能降碳中央预算内投资专项管理办法》（发改环资规〔2024〕338号）</a>
                         </h3>
                         <div class="policy-date">
-                            <i class="far fa-calendar-alt"></i> 2023-06-18
+                            <i class="far fa-calendar-alt"></i> 2029/3/17
                         </div>
                     </div>
                     <div class="policy-body">
                         <p class="policy-description">
-                            本意见XXXXXX。
+                            本意见XXXXXX.
                         </p>
                         <div class="policy-keywords">
-                            <span class="keyword">乡村振兴</span>
-                            <span class="keyword">农业农村</span>
-                            <span class="keyword">现代化</span>
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
                         </div>
                     </div>
                     <div class="policy-footer">
                         <div class="policy-department">
-                            <i class="fas fa-building"></i> 农业农村部
+                            <i class="fas fa-building"></i> 国家发展改革委
                         </div>
+                    </div>
+                </div>
+
+                <div class="policy-card" data-category="budget1-environment">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202404/t20240408_1365533.html" target="_blank">《污染治理中央预算内投资专项管理办法》（发改环资规〔2024〕337号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029/3/17
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+
+                <div class="policy-card" data-category="budget1-environment">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202404/t20240401_1365378.html">《重点流域水环境综合治理中央预算内投资专项管理办法》（发改区域规〔2024〕352号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029/3/22
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+                <div class="policy-card" data-category="budget1-environment">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2022-05/11/content_5689668.htm">《土壤污染防治资金管理办法》（财资环〔2022〕28号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> --
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+                <div class="policy-card" data-category="budget1-environment">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202405/content_6950453.htm">《生态保护修复中央预算内投资专项管理办法》（发改农经规〔2024〕590号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029/5/6
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-disaster-prevention">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2021-06/09/content_5616377.htm">《灾后恢复重建和综合防灾减灾能力建设中央预算内投资专项管理办法》（发改投资规〔2021〕675号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2026年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-disaster-prevention">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202407/content_6964222.htm">《防灾减灾救灾能力提升（应急救援及安全生产方向）中央预算内投资专项管理办法》（发改投资规〔2024〕1025号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029/7/9
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-rural-revitalization">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202406/t20240613_1386859.html">《关于印发农业中央预算内投资专项管理办法的通知》（发改农经规〔2024〕744号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029/5/31
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-rural-revitalization">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202412/t20241224_1395133.html">《乡村振兴（和美乡村建设及农村产业融合发展方向）中央预算内投资专项管理办法》（发改农经规〔2024〕1723号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2029/12/3
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-rural-revitalization">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202401/content_6926772.htm">《粮食等重要农产品仓储设施中央预算内投资专项管理办法》（发改经贸规〔2023〕1756号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2033年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-rural-revitalization">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/202311/content_6917277.htm">《农村电网巩固提升工程中央预算内投资专项管理办法》（发改能源〔2023〕48号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2028年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-rural-revitalization">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202109/t20210915_1296647.html">《农业领域相关专项中央预算内投资管理办法》（发改农经规〔2021〕1273号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2026年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-other">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.gov.cn/zhengce/zhengceku/2021-02/27/content_5589173.htm">《引导社会资本参与盘活国有存量资产中央预算内投资示范专项管理办法》（发改投资规〔2021〕252号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> 2026年
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-other">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/ghxwj/202302/t20230202_1348268.html">《煤矿安全改造中央预算内投资专项管理办法》（发改能源规〔2023〕80号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> --
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
+				<div class="policy-card" data-category="budget1-other">
+                    <div class="policy-header">
+                        <h3 class="policy-title">
+                            <a href="https://www.ndrc.gov.cn/xxgk/zcfb/fzggwl/202301/t20230119_1347031.html">《国家以工代赈管理办法》（国家发展改革委令第57号）</a>
+                        </h3>
+                        <div class="policy-date">
+                            <i class="far fa-calendar-alt"></i> --
+                        </div>
+                    </div>
+                    <div class="policy-body">
+                        <p class="policy-description">
+                            本意见XXXXXX.
+                        </p>
+                        <div class="policy-keywords">
+                            <span class="keyword">人工智能</span>
+                            <span class="keyword">科技创新</span>
+                            <span class="keyword">产业应用</span>
+                        </div>
+                    </div>
+                    <div class="policy-footer">
+                        <div class="policy-department">
+                            <i class="fas fa-building"></i> 国家发展改革委
+                        </div>
+                    </div>
+                </div>
+				
                     </div>
                 </div>
             </div>
@@ -589,20 +1356,82 @@
     </div>
 
     <script>
-        // 分类切换功能
-        document.querySelectorAll('.category').forEach(category => {
-            category.addEventListener('click', function() {
-                // 更新活动类别
-                document.querySelectorAll('.category').forEach(cat => {
-                    cat.classList.remove('active');
+        // 存储当前选中的分类
+        let currentCategory = 'all';
+        
+        // 主分类点击事件
+        document.querySelectorAll('.main-category-header').forEach(header => {
+            header.addEventListener('click', function() {
+                // 如果是"全部政策"
+                if (this.getAttribute('data-main-category') === 'all') {
+                    // 关闭所有其他主分类
+                    document.querySelectorAll('.main-category').forEach(cat => {
+                        cat.classList.remove('open');
+                    });
+                    
+                    // 更新活动状态
+                    document.querySelectorAll('.main-category-header, .sub-category').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // 更新当前选中分类
+                    currentCategory = 'all';
+                    
+                    // 显示所有政策
+                    filterPolicies('all');
+                    
+                    // 更新标题
+                    updateSectionTitle('全部政策');
+                } else {
+                    // 切换当前主分类的展开/折叠状态
+                    const mainCategory = this.closest('.main-category');
+                    mainCategory.classList.toggle('open');
+                    
+                    // 更新活动状态
+                    document.querySelectorAll('.main-category-header, .sub-category').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // 更新当前选中分类
+                    currentCategory = this.getAttribute('data-main-category');
+                    
+                    // 显示该主分类下的所有政策
+                    filterPolicies(currentCategory);
+                    
+                    // 更新标题
+                    updateSectionTitle(this.querySelector('.category-info span').textContent);
+                }
+            });
+        });
+        
+        // 子分类点击事件
+        document.querySelectorAll('.sub-category').forEach(sub => {
+            sub.addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止触发主分类的点击事件
+                
+                // 更新活动状态
+                document.querySelectorAll('.main-category-header, .sub-category').forEach(el => {
+                    el.classList.remove('active');
                 });
+                
+                // 激活对应的主分类和当前子分类
+                const mainCategory = this.closest('.main-category');
+                mainCategory.classList.add('open');
+                mainCategory.querySelector('.main-category-header').classList.add('active');
                 this.classList.add('active');
                 
-                // 获取选中类别
-                const selectedCategory = this.getAttribute('data-category');
+                // 更新当前选中分类
+                currentCategory = this.getAttribute('data-category');
                 
-                // 过滤显示政策文件
-                filterPolicies(selectedCategory);
+                // 过滤显示政策
+                filterPolicies(currentCategory);
+                
+                // 更新标题
+                const mainCatName = mainCategory.querySelector('.main-category-header .category-info span').textContent;
+                const subCatName = this.textContent.trim();
+                updateSectionTitle(`${mainCatName} - ${subCatName}`);
             });
         });
         
@@ -612,17 +1441,38 @@
             filterPoliciesBySearch(searchTerm);
         });
         
-        // 根据类别过滤政策
+        // 过滤政策
         function filterPolicies(category) {
             const allCards = document.querySelectorAll('.policy-card');
             
-            allCards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category) {
+            if (category === 'all') {
+                // 显示所有政策
+                allCards.forEach(card => {
                     card.style.display = 'block';
+                });
+            } else {
+                // 检查是主分类还是子分类
+                if (category.startsWith('budget')) {
+                    // 主分类 - 显示以该主分类为前缀的所有卡片
+                    allCards.forEach(card => {
+                        const cardCategory = card.getAttribute('data-category');
+                        if (cardCategory.startsWith(category)) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
                 } else {
-                    card.style.display = 'none';
+                    // 子分类 - 显示完全匹配的卡片
+                    allCards.forEach(card => {
+                        if (card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
                 }
-            });
+            }
         }
         
         // 根据搜索词过滤政策
@@ -642,14 +1492,10 @@
             });
         }
         
-        // 添加点击效果
-        document.querySelectorAll('.policy-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                if (!e.target.matches('.policy-link')) {
-                    this.querySelector('.policy-link').click();
-                }
-            });
-        });
+        // 更新标题显示当前筛选条件
+        function updateSectionTitle(filterText) {
+            document.querySelector('.section-title .current-filter').textContent = `(${filterText})`;
+        }
     </script>
 </body>
 </html>
