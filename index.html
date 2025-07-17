@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>政策文件库</title>
+    <title>三资申报政策文件库</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -49,6 +49,8 @@
             height: 100vh;
             overflow-y: auto;
             z-index: 100;
+            display: flex;
+            flex-direction: column;
         }
         
         .logo {
@@ -76,6 +78,7 @@
         
         .categories {
             padding: 0 15px;
+            flex: 1;
         }
         
         /* 分类导航样式 */
@@ -341,6 +344,15 @@
             gap: 8px;
         }
         
+        /* 侧边栏底部信息 */
+        .sidebar-footer {
+            padding: 15px 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
         /* 响应式设计 */
         @media (max-width: 992px) {
             .container {
@@ -414,7 +426,7 @@
         <!-- 左侧分类导航 -->
         <div class="sidebar">
             <div class="logo">
-                <h1><i class="fas fa-file-contract"></i> 政策文件库</h1>
+                <h1><i class="fas fa-file-contract"></i> 三资申报政策文件库</h1>
             </div>
             
             <div class="categories">
@@ -551,8 +563,14 @@
                     </div>
                 </div>
             </div>
+			
+			<!-- 侧边栏底部信息 -->
+            <div class="sidebar-footer">
+                <div>研发部门：交通规划所</div>
+                <div id="current-time"></div>
+            </div>
         </div>
-        
+		
         <!-- 主内容区域 -->
         <div class="main-content">
             <div class="header">
@@ -1496,6 +1514,30 @@
         function updateSectionTitle(filterText) {
             document.querySelector('.section-title .current-filter').textContent = `(${filterText})`;
         }
+		
+		// 更新当前时间
+        function updateCurrentTime() {
+            const now = new Date();
+            
+            // 设置为北京时间（UTC+8）
+            const beijingTime = new Date(now.getTime());
+            
+            const year = beijingTime.getFullYear();
+            const month = String(beijingTime.getMonth() + 1).padStart(2, '0');
+            const day = String(beijingTime.getDate()).padStart(2, '0');
+            const hours = String(beijingTime.getHours()).padStart(2, '0');
+            const minutes = String(beijingTime.getMinutes()).padStart(2, '0');
+            const seconds = String(beijingTime.getSeconds()).padStart(2, '0');
+            
+            const formattedTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            document.getElementById('current-time').textContent = `${formattedTime}`;
+        }
+        
+        // 初始更新时间
+        updateCurrentTime();
+        
+        // 每秒更新一次时间
+        setInterval(updateCurrentTime, 1000);
     </script>
 </body>
 </html>
